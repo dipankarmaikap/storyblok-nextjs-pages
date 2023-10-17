@@ -3,14 +3,23 @@ import type { NextRequest } from 'next/server'
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-  let url = new URL(request.url)
-  //You can add more complex validation logic here
+  let enablePreview = process.env.NEXT_PUBLIC_STORYBLOK_PREVIEW === 'true'
   let inDraftMode = request.cookies.get('__prerender_bypass')?.value
-  const inStoryblok =
-    url.searchParams.has('_storyblok') || url.searchParams.has('_preview')
-  if (inStoryblok && !inDraftMode) {
+  if (inDraftMode) {
+    console.log('Draft mode is enabled')
+  }
+  //You can add more complex validation logic here
+  let fetchUrl = `${
+    enablePreview ? 'https://localhost:3010' : request.nextUrl.origin
+  }/api/draft`
+  console.log({
+    inDraftMode,
+    fetchUrl,
+    t: `${request.nextUrl.origin}/api/draft`,
+  })
+  if (enablePreview && !inDraftMode) {
     try {
-      await fetch(`${request.nextUrl.origin}/api/draft`)
+      await fetch(fetchUrl)
     } catch (error) {
       console.log(error)
     }
