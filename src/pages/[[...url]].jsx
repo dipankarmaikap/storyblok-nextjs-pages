@@ -18,7 +18,7 @@ export const getStaticProps = async ({ params: { url }, draftMode }) => {
   let slug = url ?? 'home'
   let sbParams = {
     version:
-      process.env.NODE_ENV === 'development' || draftMode
+      process.env.NEXT_PUBLIC_STORYBLOK_PREVIEW === 'true' || draftMode
         ? 'draft'
         : 'published',
   }
