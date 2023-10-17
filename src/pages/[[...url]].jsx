@@ -14,7 +14,7 @@ export default function CatchAllRoute({ story }) {
   )
 }
 export const getStaticProps = async ({ params: { url }, draftMode }) => {
-  // console.log({ url, draftMode })
+  console.log({ url, draftMode })
   let slug = url ?? 'home'
   let sbParams = {
     version:
