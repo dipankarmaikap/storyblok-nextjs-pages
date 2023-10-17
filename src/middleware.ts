@@ -3,10 +3,7 @@ import type { NextRequest } from 'next/server'
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
   //you can add more logic
-  if (
-    process.env.NODE_ENV !== 'development' &&
-    process.env.NEXT_PUBLIC_STORYBLOK_PREVIEW === 'true'
-  ) {
+  if (process.env.NEXT_PUBLIC_STORYBLOK_PREVIEW === 'true') {
     let isDraftEnable = request.cookies.get('__prerender_bypass')?.value
     if (!isDraftEnable) {
       let url = new URL(request.url)
